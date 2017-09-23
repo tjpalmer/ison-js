@@ -6,6 +6,7 @@ let propertyList
 let replacerFunc
 let gap
 let quote
+let regExps
 
 export default function stringify (value, replacer, space) {
     stack = []
@@ -13,6 +14,7 @@ export default function stringify (value, replacer, space) {
     propertyList = undefined
     replacerFunc = undefined
     gap = ''
+    regExps = false
 
     if (
         replacer != null &&
@@ -21,6 +23,7 @@ export default function stringify (value, replacer, space) {
     ) {
         space = replacer.space
         quote = replacer.quote
+        regExps = replacer.regExps
         replacer = replacer.replacer
     }
 
@@ -85,6 +88,8 @@ function serializeProperty (key, holder) {
         value = String(value)
     } else if (value instanceof Boolean) {
         value = value.valueOf()
+    } else if (regExps && value instanceof RegExp) {
+        value = value.toString()
     }
 
     switch (value) {
