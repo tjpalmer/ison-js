@@ -37,16 +37,7 @@ export default function parse (text, reviver) {
         reviver = reviver.reviver
 
         if (dates) {
-            root = internalize({'': root}, '', (name, value) => {
-                if (
-                    typeof value === 'string' &&
-                    /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\dZ$/.test(value)
-                ) {
-                    return new Date(value)
-                }
-
-                return value
-            })
+            root = internalize({'': root}, '', dateReviver)
         }
     }
 
@@ -55,6 +46,17 @@ export default function parse (text, reviver) {
     }
 
     return root
+}
+
+function dateReviver (name, value) {
+    if (
+        typeof value === 'string' &&
+        /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\dZ$/.test(value)
+    ) {
+        return new Date(value)
+    }
+
+    return value
 }
 
 function internalize (holder, name, reviver) {
