@@ -42,7 +42,7 @@ Original JSON5 readme follows for now.
 Here's the original meaningless example from JSON5 with variations allowed by
 ison:
 
-```js
+```
 {
     foo: 'bar',
     while: True,
