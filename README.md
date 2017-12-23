@@ -1,3 +1,81 @@
+# ISON - Improved Standard Object Notation
+
+Improved for human read and write, as well as other small use cases.
+This builds on JSON5, since they've already done great work.
+
+## Changes to JSON5
+
+First, the following changes are already in ECMAScript or are coming soon, so I
+recommend that JSON5 pick these up, too:
+
+- Allow backticks for multiline strings (in addition to existing backslash
+  support).
+  This is already in the ES standard.
+- Allow underscores in numeric literals.
+  This is a stage 3 proposal, so it's likely to be included in ES soon.
+
+Remaining changes deviate from ECMAScript, so they probably won't be acceptable
+to JSON5 folks.
+First, these changes allow more familiar appearance for use by Python users, for
+better visual jiving while allowing nice declarative data files:
+
+- Allow hash-led single-line comments.
+- Allow `None`, `True`, `False`, `inf`, and `nan` in addition to the js
+  counterparts.
+
+And this slight change allows to better streaming out and in:
+
+- Allow line-separated sequences of separate objects at the top level of files.
+  This means that jsonlines/ndjson gets folded in with the benefits those small
+  json updates provide.
+  Unlike jsonlines/ndjson, objects aren't required to be on single lines, so
+  that makes pure line-oriented data a subset of ison.
+  Perhaps a separate extension/type like 'isonl' would be good for pure lines.
+
+I think that's it.
+JSON5 already has some great minimal changes to JSON.
+
+Original JSON5 readme follows for now.
+
+## Example
+
+Here's the original meaningless example from JSON5 with variations allowed by
+ison:
+
+```js
+{
+    foo: 'bar',
+    while: True,
+
+    this: `is a
+multi-line string`,
+
+    # this is an inline comment
+    here: 'is another', # inline comment
+
+    /* this is a block comment,
+       but it might visually clash here */
+
+    hex: 0xDEAD_beef,
+    half: .5,
+    delta: +10,
+    to: inf,   # and beyond!
+
+    finally: 'a trailing comma',
+    oh: [
+        "we shouldn't forget",
+        'arrays can have',
+        'trailing commas too',
+    ],
+}
+
+'another object in the stream'
+```
+
+Of course, if you wanted to look just like python, you wouldn't use some of the
+features above, but the mishmash is technically allowed.
+
+
 # JSON5 – JSON for Humans
 
 [![Build Status](https://travis-ci.org/json5/json5.svg)](https://travis-ci.org/json5/json5)
